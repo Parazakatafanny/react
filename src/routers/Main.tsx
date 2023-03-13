@@ -1,9 +1,11 @@
 import React from "react";
+import Search from "../components/Search";
 
-export default class Search extends React.Component {
+export default class Main extends React.Component {
   render() {
     return <>
-      
+    <Search />
+    <div>sfsdf</div>
     </>;
   }
 }
