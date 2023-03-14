@@ -1,9 +1,9 @@
-export default interface Card {
+export default interface CardInterface {
   id: number;
   title: string;
   description: string;
-  rating: number;
-  stock: number;
+  rating: string;
+  likes: string;
   brand: string;
   category: string;
   thumbnail: string;

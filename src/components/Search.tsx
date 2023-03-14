@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default class Search extends React.Component {
-  render(): React.ReactNode {
+  render() {
     return (
       <div className="search">
         <div className="container">
