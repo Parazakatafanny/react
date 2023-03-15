@@ -2,10 +2,40 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import logo from '../assets/cat.png';
 
-export default class Header extends React.Component {
+type Props = object;
+type State = {
+  location: string;
+};
+
+export default class Header extends React.Component<Props, State> {
+  constructor(props: object) {
+    super(props);
+
+    this.state = {
+      location: window.location.pathname,
+    };
+  }
+
+  componentDidMount() {
+    let oldPathname = document.location.pathname;
+
+    const body = document.querySelector('body')!;
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        if (oldPathname !== document.location.pathname) {
+          oldPathname = document.location.pathname;
+          this.setState({ location: document.location.pathname });
+        }
+      });
+    });
+    observer.observe(body, { childList: true, subtree: true });
+  }
+
   render() {
     const classLink = 'header__inner-link';
     const activeClass = 'active-link';
+
+    const { location } = this.state;
 
     return (
       <header className="header">
@@ -33,7 +63,7 @@ export default class Header extends React.Component {
           </div>
         </div>
 
-        <h1 className="header__title">{'/' ? 'main' : 'about us'}</h1>
+        <h1 className="header__title">{location === '/' ? 'main' : 'about us'}</h1>
       </header>
     );
   }

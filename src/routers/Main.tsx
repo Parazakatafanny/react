@@ -4,10 +4,6 @@ import Search from '../components/Search';
 import cards from '../data/cards';
 
 export default class Main extends React.Component {
-  componentDidMount() {
-    localStorage.setItem('input_value', '');
-  }
-
   render() {
     const cardsList: JSX.Element[] = [];
     cards.forEach((card) => {
