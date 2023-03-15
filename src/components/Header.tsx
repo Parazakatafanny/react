@@ -1,26 +1,39 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import logo from '../assets/cat.png';
 
 export default class Header extends React.Component {
   render() {
+    const classLink = 'header__inner-link';
+    const activeClass = 'active-link';
+
     return (
       <header className="header">
-        <nav className="container">
-          <ul className="header__inner">
+        <div className="container">
+          <div className="header__inner">
             <img className="header__logo" src={logo} alt="cat" draggable="false" />
-            <div className="header__inner-links">
-              <a href="/main" className="header__inner-link active-link">
+            <nav className="header__inner-links">
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? `${classLink} ${activeClass}` : `${classLink}`
+                }
+              >
                 main
-              </a>
-              <a href="/about-us" className="header__inner-link">
+              </NavLink>
+              <NavLink
+                to="about-us"
+                className={({ isActive }) =>
+                  isActive ? `${classLink} ${activeClass}` : `${classLink}`
+                }
+              >
                 about us
-              </a>
-            </div>
-          </ul>
-        </nav>
+              </NavLink>
+            </nav>
+          </div>
+        </div>
 
-        <h1 className="header__title">main</h1>
+        <h1 className="header__title">{'/' ? 'main' : 'about us'}</h1>
       </header>
     );
   }

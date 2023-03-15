@@ -33,6 +33,11 @@
       border-bottom: .1vw solid rgb(155, 7, 27);
       cursor: pointer;
     }
+
+    &:active {
+      color: rgb(155, 7, 27);
+      border-bottom: .1vw solid rgb(155, 7, 27);
+    }
   }
 
   &__logo {
