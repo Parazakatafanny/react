@@ -182,4 +182,4 @@ export default [
     thumbnail:
       'https://4lapy.ru/resize/480x480/upload/iblock/fe0/fe01f26983f5adba25e3bfc50d939656.jpg',
   },
-] as CardInterface[];
+] as unknown as CardInterface[];

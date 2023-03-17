@@ -15,5 +15,11 @@
     "baseUrl": "./src",
     "resolveJsonModule": true
   },
-  "include": ["./src/**/*", "styled.d.ts"]
+  "include": [
+    "./src/**/*",
+    "styled.d.ts",
+    "src/tests",
+    "vite.config.ts",
+    "vitest.config.ts"
+  ]
 }
