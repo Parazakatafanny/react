@@ -1,12 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { it, describe, expect } from 'vitest';
+import cards from '../data/cards';
 import Main from '../routers/Main';
-import cards from 'data/cards';
 
 describe('', () => {
-  test('renders cards', () => {
-    // const { length } = cards.length;
+  it('renders without crashing', () => {
     const { container } = render(<Main />);
-    expect(container.querySelectorAll('.card')).toHaveLength(3);
+    expect(container.querySelectorAll('.card')).toHaveLength(cards.length);
   });
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import { it, describe, expect } from 'vitest';
 import Card from '../components/Card';
 
 describe('Card component', () => {
@@ -13,7 +14,7 @@ describe('Card component', () => {
       rating: '4.5',
     };
 
-    const { getByText } = render(
+    const { container } = render(
       <Card
         title={props.title}
         img={props.img}
@@ -22,9 +23,14 @@ describe('Card component', () => {
         rating={props.rating}
       />
     );
-    expect(getByText(props.title)).toBeInTheDocument();
-    expect(getByText(props.description)).toBeInTheDocument();
-    expect(getByText(props.likes)).toBeInTheDocument();
-    expect(getByText(props.rating)).toBeInTheDocument();
+
+    const title = container.querySelector('.card__title');
+    expect(title?.innerHTML).toEqual(props.title);
+    const description = container.querySelector('.card__description');
+    expect(description?.innerHTML).toEqual(props.description);
+    const likes = container.querySelector('.card__info-likes');
+    expect(likes?.textContent).toEqual(props.likes);
+    const rating = container.querySelector('.card__info-rating');
+    expect(rating?.textContent).toEqual(props.rating);
   });
-})
+});
