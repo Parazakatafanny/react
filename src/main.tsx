@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import MainLayout from './components/MainLayout';
 import Main from './routers/Main';
 import About from './routers/About';
+import AddCard from './routers/AddCard';
 import ErrorPage from './routers/Erorr';
 import './styles/style.scss';
 
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
       {
         path: 'about-us',
         element: <About />,
+      },
+      {
+        path: 'add-card',
+        element: <AddCard />,
       },
     ],
   },

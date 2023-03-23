@@ -31,11 +31,27 @@ export default class Header extends React.Component<Props, State> {
     observer.observe(body, { childList: true, subtree: true });
   }
 
+  getTitle() {
+    const { location } = this.state;
+
+    switch (location) {
+      case '/about-us':
+        return 'about us';
+        break;
+
+      case '/add-card':
+        return 'add card';
+        break;
+
+      default:
+        return 'main';
+        break;
+    }
+  }
+
   render() {
     const classLink = 'header__inner-link';
     const activeClass = 'active-link';
-
-    const { location } = this.state;
 
     return (
       <header className="header">
@@ -59,11 +75,19 @@ export default class Header extends React.Component<Props, State> {
               >
                 about us
               </NavLink>
+              <NavLink
+                to="add-card"
+                className={({ isActive }) =>
+                  isActive ? `${classLink} ${activeClass}` : `${classLink}`
+                }
+              >
+                add card
+              </NavLink>
             </nav>
           </div>
         </div>
 
-        <h1 className="header__title">{location === '/' ? 'main' : 'about us'}</h1>
+        <h1 className="header__title">{this.getTitle()}</h1>
       </header>
     );
   }
