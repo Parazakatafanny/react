@@ -34,18 +34,18 @@ export default class FormAddCards extends React.Component<Props, State> {
     // this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
+  handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void {
     const { target } = event;
     let value;
     if (target.type === 'checkbox') {
-      value = target.checked;
+      value = (target as HTMLInputElement).checked;
     } else if (target.type === 'file') {
-      const file = target.files![0];
+      const file = (target as HTMLInputElement).files![0];
       value = window.URL.createObjectURL(file);
     } else {
       value = target.value;
     }
-    // const value = target.type === 'checkbox' ? target.checked : target.value;
+
     const { name } = target;
     this.setState({ [name]: value } as Pick<State, keyof State>);
     console.log(this.state);
