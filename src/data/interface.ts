@@ -8,3 +8,16 @@ export default interface CardInterface {
   category: string;
   thumbnail: string;
 }
+
+export interface CardFormData {
+  name: string;
+  birthday: string;
+  pet: string;
+  scales: boolean;
+  horns: boolean;
+  tail: boolean;
+  ears: boolean;
+  fangs: boolean;
+  gender: string;
+  img: string;
+}

@@ -1,6 +1,11 @@
 import React from 'react';
+import { CardFormData } from '../data/interface';
 
-export default class FormAddCards extends React.Component {
+type ComponentProps = {
+  onSubmit: (data: CardFormData) => void;
+};
+
+export default class FormAddCards extends React.Component<ComponentProps> {
   private formLink: React.RefObject<HTMLFormElement>;
 
   private name: React.RefObject<HTMLInputElement>;
@@ -23,7 +28,7 @@ export default class FormAddCards extends React.Component {
 
   private gender: React.RefObject<HTMLInputElement>;
 
-  constructor(props: object) {
+  constructor(props: ComponentProps) {
     super(props);
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -41,10 +46,19 @@ export default class FormAddCards extends React.Component {
   }
 
   handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    console.log(
-      `A name was submitted: ${this.name.current?.value}, ${this.pet.current?.value}, ${this.birthday.current?.value}`
-    );
-
+    const { onSubmit } = this.props;
+    onSubmit({
+      name: this.name.current!.value,
+      birthday: this.birthday.current!.value,
+      pet: this.pet.current!.value,
+      scales: this.scales.current!.checked,
+      horns: this.horns.current!.checked,
+      tail: this.tail.current!.checked,
+      ears: this.ears.current!.checked,
+      fangs: this.fangs.current!.checked,
+      gender: this.gender.current!.value,
+      img: URL.createObjectURL(this.img.current!.files![0]),
+    });
     this.formLink.current?.reset();
     event.preventDefault();
   }
