@@ -1,20 +1,30 @@
 import React from 'react';
+import { CardFormData } from '../data/interface';
 
-export default class Card extends React.Component {
+type CardType = {
+  card: CardFormData;
+};
+
+export default class Card extends React.Component<CardType, object> {
   render() {
+    const { card } = this.props;
+    const feature: string[] = [];
+    if (card.horns) feature.push('horns');
+    if (card.tail) feature.push('tail');
+    if (card.scales) feature.push('scales');
+    if (card.ears) feature.push('ears');
+    if (card.fangs) feature.push('fangs');
+    const strFeature = feature.join(', ');
+
     return (
       <div className="form-card">
-        <img
-          className="form-card__img"
-          src="https://i.pinimg.com/564x/59/b7/71/59b771d17cc1844a23b1baa4ed4c77ea.jpg"
-          alt="pet-img"
-        />
+        <img className="form-card__img" src={card.img} alt="pet-img" />
         <div className="form-card__about">
-          <div className="form-card__name">barsic</div>
-          <div className="form-card__birthday">23.04.2021</div>
-          <div className="form-card__pet">cat</div>
-          <div className="form-card__features">ears, fangs</div>
-          <div className="form-card__gender">male</div>
+          <div className="form-card__name">{card.name}</div>
+          <div className="form-card__birthday">{card.birthday}</div>
+          <div className="form-card__pet">{card.pet}</div>
+          <div className="form-card__features">{strFeature}</div>
+          <div className="form-card__gender">{card.gender}</div>
         </div>
       </div>
     );

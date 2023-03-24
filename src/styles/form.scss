@@ -33,7 +33,7 @@ input {
 }
 
 .form-card {
-  width: 20vw;
+  width: 25vw;
   padding: .3vw;
   display: flex;
   gap: 1vw;
@@ -55,5 +55,15 @@ input {
     letter-spacing: .1vw;
     font-weight: 600;
     font-size: 1.2vw;
+  }
+}
+
+.card-list {
+  margin: 5vw 0;
+
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2vw;
   }
 }

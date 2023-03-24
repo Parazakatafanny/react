@@ -20,8 +20,6 @@ export default class AddCard extends React.Component<Props, State> {
     this.setState((prevState) => ({
       data: [...prevState.data, dataCard],
     }));
-    // eslint-disable-next-line react/destructuring-assignment
-    console.log(this.state.data);
   }
 
   render() {
@@ -29,7 +27,7 @@ export default class AddCard extends React.Component<Props, State> {
     return (
       <>
         <FormAddCards onSubmit={this.handleData} />
-        <CardsList />
+        <CardsList cards={data} />
       </>
     );
   }
