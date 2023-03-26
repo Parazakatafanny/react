@@ -5,53 +5,6 @@ type ComponentProps = {
   onSubmit: (data: CardFormData) => void;
 };
 
-// type ValidationRule = 'required';
-
-// function setStyling(elem: HTMLElement, isValid: boolean) {
-//   const form = elem?.parentElement?.parentElement;
-//   const formField = form?.querySelector('.error-message') as HTMLElement;
-
-//   if (!formField) {
-//     throw Error('Wrong layout!');
-//   }
-
-//   if (!isValid) {
-//     // eslint-disable-next-line no-param-reassign
-//     formField.style.display = 'block';
-//   } else {
-//     // eslint-disable-next-line no-param-reassign
-//     formField.style.display = 'none';
-//   }
-// }
-
-// function processRequired(field: React.RefObject<HTMLElement>) {
-//   if (!field.current?.tagName) {
-//     return;
-//   }
-
-//   const tagname = field.current.tagName.toLowerCase();
-//   switch (tagname) {
-//     case 'input':
-//       setStyling(field.current, !!(field.current as HTMLInputElement).value);
-//       break;
-//     default:
-//   }
-// }
-
-// function validateForm(data: Record<ValidationRule, React.RefObject<HTMLElement>[]>) {
-//   Object.entries(data).forEach(([rule, refs]) => {
-//     refs.forEach((ref) => {
-//       switch (rule) {
-//         case 'required':
-//           processRequired(ref);
-//           break;
-//         default:
-//           break;
-//       }
-//     });
-//   });
-// }
-
 export default class FormAddCards extends React.Component<ComponentProps> {
   private formLink: React.RefObject<HTMLFormElement>;
 
@@ -122,9 +75,6 @@ export default class FormAddCards extends React.Component<ComponentProps> {
       this.tail.current!.checked ||
       this.ears.current!.checked ||
       this.fangs.current!.checked;
-    // validateForm({
-    //   required: [this.name],
-    // });
 
     if (!this.name.current!.value) {
       this.errorName.current!.style.display = 'block';
