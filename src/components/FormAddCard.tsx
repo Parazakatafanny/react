@@ -5,7 +5,16 @@ type ComponentProps = {
   onSubmit: (data: CardFormData) => void;
 };
 
-export default class FormAddCards extends React.Component<ComponentProps> {
+type ComponentState = {
+  errorName: boolean;
+  errorBithday: boolean;
+  errorFeature: boolean;
+  errorGender: boolean;
+  errorFile: boolean;
+  message: boolean;
+};
+
+export default class FormAddCards extends React.Component<ComponentProps, ComponentState> {
   private formLink: React.RefObject<HTMLFormElement>;
 
   private name: React.RefObject<HTMLInputElement>;
@@ -30,18 +39,6 @@ export default class FormAddCards extends React.Component<ComponentProps> {
 
   private genderFemale: React.RefObject<HTMLInputElement>;
 
-  private message: React.RefObject<HTMLDivElement>;
-
-  private errorName: React.RefObject<HTMLDivElement>;
-
-  private errorBithday: React.RefObject<HTMLDivElement>;
-
-  private errorFeature: React.RefObject<HTMLDivElement>;
-
-  private errorGender: React.RefObject<HTMLDivElement>;
-
-  private errorFile: React.RefObject<HTMLDivElement>;
-
   constructor(props: ComponentProps) {
     super(props);
 
@@ -58,104 +55,85 @@ export default class FormAddCards extends React.Component<ComponentProps> {
     this.genderMale = React.createRef();
     this.genderFemale = React.createRef();
     this.img = React.createRef();
-    this.message = React.createRef();
-    this.errorName = React.createRef();
-    this.errorBithday = React.createRef();
-    this.errorFeature = React.createRef();
-    this.errorGender = React.createRef();
-    this.errorFile = React.createRef();
+
+    this.state = {
+      errorName: false,
+      errorBithday: false,
+      errorFeature: false,
+      errorGender: false,
+      errorFile: false,
+      message: false,
+    };
   }
 
-  handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+  handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
     const { onSubmit } = this.props;
-    const currentGender = this.genderFemale.current!.checked || this.genderMale.current!.checked;
-    const currentFeatures =
+
+    this.validateInputs(() => {
+      const { errorName, errorBithday, errorFeature, errorFile, errorGender } = this.state;
+
+      if (!errorName && !errorBithday && !errorFeature && !errorFile && !errorGender) {
+        this.setState({ message: true });
+        setTimeout(() => {
+          this.setState({ message: false });
+          const gender = this.genderMale.current!.checked ? 'male' : 'female';
+          onSubmit({
+            name: this.name.current!.value,
+            birthday: this.birthday.current!.value,
+            pet: this.pet.current!.value,
+            scales: this.scales.current!.checked,
+            horns: this.horns.current!.checked,
+            tail: this.tail.current!.checked,
+            ears: this.ears.current!.checked,
+            fangs: this.fangs.current!.checked,
+            gender,
+            img: URL.createObjectURL(this.img.current!.files![0]),
+          });
+          this.formLink.current?.reset();
+        }, 500);
+      }
+    });
+  }
+
+  validateInputs(callback: () => void) {
+    const gender = this.genderMale.current!.checked || this.genderFemale.current!.checked;
+    const features =
       this.scales.current!.checked ||
       this.horns.current!.checked ||
       this.tail.current!.checked ||
       this.ears.current!.checked ||
       this.fangs.current!.checked;
 
-    if (!this.name.current!.value) {
-      this.errorName.current!.style.display = 'block';
-    } else {
-      this.errorName.current!.style.display = 'none';
-    }
-
-    if (!this.birthday.current!.value) {
-      this.errorBithday.current!.style.display = 'block';
-    } else {
-      this.errorBithday.current!.style.display = 'none';
-    }
-
-    if (!this.img.current!.files![0]) {
-      this.errorFile.current!.style.display = 'block';
-    } else {
-      this.errorFile.current!.style.display = 'none';
-    }
-
-    if (currentGender) {
-      this.errorGender.current!.style.display = 'none';
-    } else {
-      this.errorGender.current!.style.display = 'block';
-    }
-
-    if (currentFeatures) {
-      this.errorFeature.current!.style.display = 'none';
-    } else {
-      this.errorFeature.current!.style.display = 'block';
-    }
-
-    if (
-      this.name.current!.value &&
-      this.birthday.current!.value &&
-      this.img.current!.files![0] &&
-      currentGender &&
-      currentFeatures
-    ) {
-      this.message.current!.style.display = 'block';
-      setTimeout(() => {
-        this.message.current!.style.display = 'none';
-        const gender = this.genderMale.current!.checked ? 'male' : 'female';
-        onSubmit({
-          name: this.name.current!.value,
-          birthday: this.birthday.current!.value,
-          pet: this.pet.current!.value,
-          scales: this.scales.current!.checked,
-          horns: this.horns.current!.checked,
-          tail: this.tail.current!.checked,
-          ears: this.ears.current!.checked,
-          fangs: this.fangs.current!.checked,
-          gender,
-          img: URL.createObjectURL(this.img.current!.files![0]),
-        });
-        this.formLink.current?.reset();
-        event.preventDefault();
-      }, 500);
-    }
+    this.setState(
+      {
+        errorName: !this.name.current!.value,
+        errorBithday: !this.birthday.current!.value,
+        errorFile: !this.img.current!.files![0],
+        errorGender: !gender,
+        errorFeature: !features,
+      },
+      callback
+    );
   }
 
   render() {
+    const { errorName, errorBithday, errorFeature, errorFile, errorGender, message } = this.state;
     return (
       <>
-        <div ref={this.message} className="message">
-          card added
-        </div>
-        <form className="form" ref={this.formLink}>
+        {message ? <div className="message">card added</div> : null}
+        <form className="form" ref={this.formLink} onSubmit={this.handleSubmit}>
           <label className="form__label" htmlFor="name">
             name
             <input id="name" type="text" name="name" ref={this.name} />
           </label>
-          <div className="error-message" ref={this.errorName}>
-            the field should not be empty
-          </div>
+          {errorName ? <div className="error-message">the field should not be empty</div> : null}
           <label className="form__label" htmlFor="birthday">
             birthday
             <input id="birthday" type="date" name="birthday" ref={this.birthday} />
           </label>
-          <div className="error-message" ref={this.errorBithday}>
-            the field should not be empty
-          </div>
+          {errorBithday ? <div className="error-message">the field should not be empty</div> : null}
 
           <label className="form__label" htmlFor="pet">
             choose a pet:
@@ -192,9 +170,7 @@ export default class FormAddCards extends React.Component<ComponentProps> {
               <input type="checkbox" id="fangs" name="fangs" ref={this.fangs} />
             </label>
           </div>
-          <div className="error-message" ref={this.errorFeature}>
-            the field should not be empty
-          </div>
+          {errorFeature ? <div className="error-message">the field should not be empty</div> : null}
 
           <fieldset className="form__label">
             Select a gender of the pet:
@@ -213,9 +189,7 @@ export default class FormAddCards extends React.Component<ComponentProps> {
               />
             </label>
           </fieldset>
-          <div className="error-message" ref={this.errorGender}>
-            the field should not be empty
-          </div>
+          {errorGender ? <div className="error-message">the field should not be empty</div> : null}
 
           <input
             type="file"
@@ -225,11 +199,9 @@ export default class FormAddCards extends React.Component<ComponentProps> {
             ref={this.img}
           />
 
-          <div className="error-message" ref={this.errorFile}>
-            the field should not be empty
-          </div>
+          {errorFile ? <div className="error-message">the field should not be empty</div> : null}
 
-          <button type="button" onClick={this.handleSubmit} className="form__btn">
+          <button type="submit" className="form__btn">
             CREATE
           </button>
         </form>

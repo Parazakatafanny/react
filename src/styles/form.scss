@@ -69,7 +69,6 @@ input {
 }
 
 .message {
-  display: none;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -87,7 +86,6 @@ input {
 }
 
 .error-message {
-  display: none;
   color: rgb(214, 7, 7);
   font-weight: 600;
   font-size: .9vw;
