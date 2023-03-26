@@ -5,6 +5,53 @@ type ComponentProps = {
   onSubmit: (data: CardFormData) => void;
 };
 
+// type ValidationRule = 'required';
+
+// function setStyling(elem: HTMLElement, isValid: boolean) {
+//   const form = elem?.parentElement?.parentElement;
+//   const formField = form?.querySelector('.error-message') as HTMLElement;
+
+//   if (!formField) {
+//     throw Error('Wrong layout!');
+//   }
+
+//   if (!isValid) {
+//     // eslint-disable-next-line no-param-reassign
+//     formField.style.display = 'block';
+//   } else {
+//     // eslint-disable-next-line no-param-reassign
+//     formField.style.display = 'none';
+//   }
+// }
+
+// function processRequired(field: React.RefObject<HTMLElement>) {
+//   if (!field.current?.tagName) {
+//     return;
+//   }
+
+//   const tagname = field.current.tagName.toLowerCase();
+//   switch (tagname) {
+//     case 'input':
+//       setStyling(field.current, !!(field.current as HTMLInputElement).value);
+//       break;
+//     default:
+//   }
+// }
+
+// function validateForm(data: Record<ValidationRule, React.RefObject<HTMLElement>[]>) {
+//   Object.entries(data).forEach(([rule, refs]) => {
+//     refs.forEach((ref) => {
+//       switch (rule) {
+//         case 'required':
+//           processRequired(ref);
+//           break;
+//         default:
+//           break;
+//       }
+//     });
+//   });
+// }
+
 export default class FormAddCards extends React.Component<ComponentProps> {
   private formLink: React.RefObject<HTMLFormElement>;
 
@@ -26,9 +73,21 @@ export default class FormAddCards extends React.Component<ComponentProps> {
 
   private fangs: React.RefObject<HTMLInputElement>;
 
-  private gender: React.RefObject<HTMLInputElement>;
+  private genderMale: React.RefObject<HTMLInputElement>;
+
+  private genderFemale: React.RefObject<HTMLInputElement>;
 
   private message: React.RefObject<HTMLDivElement>;
+
+  private errorName: React.RefObject<HTMLDivElement>;
+
+  private errorBithday: React.RefObject<HTMLDivElement>;
+
+  private errorFeature: React.RefObject<HTMLDivElement>;
+
+  private errorGender: React.RefObject<HTMLDivElement>;
+
+  private errorFile: React.RefObject<HTMLDivElement>;
 
   constructor(props: ComponentProps) {
     super(props);
@@ -43,31 +102,87 @@ export default class FormAddCards extends React.Component<ComponentProps> {
     this.tail = React.createRef();
     this.ears = React.createRef();
     this.fangs = React.createRef();
-    this.gender = React.createRef();
+    this.genderMale = React.createRef();
+    this.genderFemale = React.createRef();
     this.img = React.createRef();
     this.message = React.createRef();
+    this.errorName = React.createRef();
+    this.errorBithday = React.createRef();
+    this.errorFeature = React.createRef();
+    this.errorGender = React.createRef();
+    this.errorFile = React.createRef();
   }
 
   handleSubmit(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     const { onSubmit } = this.props;
-    this.message.current!.style.display = 'block';
-    setTimeout(() => {
-      this.message.current!.style.display = 'none';
-      onSubmit({
-        name: this.name.current!.value,
-        birthday: this.birthday.current!.value,
-        pet: this.pet.current!.value,
-        scales: this.scales.current!.checked,
-        horns: this.horns.current!.checked,
-        tail: this.tail.current!.checked,
-        ears: this.ears.current!.checked,
-        fangs: this.fangs.current!.checked,
-        gender: this.gender.current!.value,
-        img: URL.createObjectURL(this.img.current!.files![0]),
-      });
-      this.formLink.current?.reset();
-      event.preventDefault();
-    }, 500);
+    const currentGender = this.genderFemale.current!.checked || this.genderMale.current!.checked;
+    const currentFeatures =
+      this.scales.current!.checked ||
+      this.horns.current!.checked ||
+      this.tail.current!.checked ||
+      this.ears.current!.checked ||
+      this.fangs.current!.checked;
+    // validateForm({
+    //   required: [this.name],
+    // });
+
+    if (!this.name.current!.value) {
+      this.errorName.current!.style.display = 'block';
+    } else {
+      this.errorName.current!.style.display = 'none';
+    }
+
+    if (!this.birthday.current!.value) {
+      this.errorBithday.current!.style.display = 'block';
+    } else {
+      this.errorBithday.current!.style.display = 'none';
+    }
+
+    if (!this.img.current!.files![0]) {
+      this.errorFile.current!.style.display = 'block';
+    } else {
+      this.errorFile.current!.style.display = 'none';
+    }
+
+    if (currentGender) {
+      this.errorGender.current!.style.display = 'none';
+    } else {
+      this.errorGender.current!.style.display = 'block';
+    }
+
+    if (currentFeatures) {
+      this.errorFeature.current!.style.display = 'none';
+    } else {
+      this.errorFeature.current!.style.display = 'block';
+    }
+
+    if (
+      this.name.current!.value &&
+      this.birthday.current!.value &&
+      this.img.current!.files![0] &&
+      currentGender &&
+      currentFeatures
+    ) {
+      this.message.current!.style.display = 'block';
+      setTimeout(() => {
+        this.message.current!.style.display = 'none';
+        const gender = this.genderMale.current!.checked ? 'male' : 'female';
+        onSubmit({
+          name: this.name.current!.value,
+          birthday: this.birthday.current!.value,
+          pet: this.pet.current!.value,
+          scales: this.scales.current!.checked,
+          horns: this.horns.current!.checked,
+          tail: this.tail.current!.checked,
+          ears: this.ears.current!.checked,
+          fangs: this.fangs.current!.checked,
+          gender,
+          img: URL.createObjectURL(this.img.current!.files![0]),
+        });
+        this.formLink.current?.reset();
+        event.preventDefault();
+      }, 500);
+    }
   }
 
   render() {
@@ -81,11 +196,16 @@ export default class FormAddCards extends React.Component<ComponentProps> {
             name
             <input id="name" type="text" name="name" ref={this.name} />
           </label>
-
+          <div className="error-message" ref={this.errorName}>
+            the field should not be empty
+          </div>
           <label className="form__label" htmlFor="birthday">
             birthday
             <input id="birthday" type="date" name="birthday" ref={this.birthday} />
           </label>
+          <div className="error-message" ref={this.errorBithday}>
+            the field should not be empty
+          </div>
 
           <label className="form__label" htmlFor="pet">
             choose a pet:
@@ -122,19 +242,31 @@ export default class FormAddCards extends React.Component<ComponentProps> {
               <input type="checkbox" id="fangs" name="fangs" ref={this.fangs} />
             </label>
           </div>
+          <div className="error-message" ref={this.errorFeature}>
+            the field should not be empty
+          </div>
 
           <fieldset className="form__label">
             Select a gender of the pet:
             <label htmlFor="male">
               male
-              <input type="radio" id="male" name="gender" value="male" ref={this.gender} />
+              <input type="radio" id="male" name="gender" value="male" ref={this.genderMale} />
             </label>
             <label htmlFor="female">
               female
-              <input type="radio" id="female" name="gender" value="female" ref={this.gender} />
+              <input
+                type="radio"
+                id="female"
+                name="gender"
+                value="female"
+                ref={this.genderFemale}
+              />
             </label>
           </fieldset>
-
+          <div className="error-message" ref={this.errorGender}>
+            the field should not be empty
+          </div>
+          {/* TODO: Fix the resulting value radio button */}
           <input
             type="file"
             name="img"
@@ -142,6 +274,10 @@ export default class FormAddCards extends React.Component<ComponentProps> {
             accept="image/png, image/jpeg"
             ref={this.img}
           />
+
+          <div className="error-message" ref={this.errorFile}>
+            the field should not be empty
+          </div>
 
           <button type="button" onClick={this.handleSubmit} className="form__btn">
             CREATE

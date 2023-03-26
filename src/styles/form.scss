@@ -85,3 +85,13 @@ input {
   transform: translate(-50%, -50%);
   background-color: rgb(109, 4, 4);
 }
+
+.error-message {
+  display: none;
+  color: rgb(214, 7, 7);
+  font-weight: 600;
+  font-size: .9vw;
+  margin-top: -2vw;
+  margin-bottom: -.9vw;
+  margin-right: 1.5vw;
+}
