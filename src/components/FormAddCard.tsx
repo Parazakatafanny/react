@@ -216,7 +216,7 @@ export default class FormAddCards extends React.Component<ComponentProps> {
           <div className="error-message" ref={this.errorGender}>
             the field should not be empty
           </div>
-          {/* TODO: Fix the resulting value radio button */}
+
           <input
             type="file"
             name="img"
