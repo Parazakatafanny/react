@@ -1,0 +1,15 @@
+@import './reset.scss';
+@import './header.scss';
+@import './search.scss';
+@import './card.scss';
+@import './erorr.scss';
+@import './form.scss';
+
+.container {
+  width: 100%;
+  padding: 0 10vw;
+}
+
+body {
+  color: rgb(32, 32, 32);
+}
