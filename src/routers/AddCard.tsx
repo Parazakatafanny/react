@@ -25,10 +25,10 @@ export default class AddCard extends React.Component<Props, State> {
   render() {
     const { data } = this.state;
     return (
-      <>
+      <div className="add-card">
         <FormAddCards onSubmit={this.handleData} />
         <CardsList cards={data} />
-      </>
+      </div>
     );
   }
 }
