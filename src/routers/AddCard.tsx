@@ -1,34 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CardFormData } from '../data/interface';
 import FormAddCards from '../components/FormAddCard';
 import CardsList from '../components/CardFormList';
 
-type Props = object;
+export default function AddCard() {
+  const [cards, setCards] = useState<Array<CardFormData>>([]);
 
-type State = {
-  data: Array<CardFormData>;
-};
+  const handleData = (dataCard: CardFormData) => {
+    setCards((prevState) => [...prevState, dataCard]);
+  };
 
-export default class AddCard extends React.Component<Props, State> {
-  constructor(props: object) {
-    super(props);
-    this.state = { data: [] };
-    this.handleData = this.handleData.bind(this);
-  }
-
-  handleData(dataCard: CardFormData) {
-    this.setState((prevState) => ({
-      data: [...prevState.data, dataCard],
-    }));
-  }
-
-  render() {
-    const { data } = this.state;
-    return (
-      <div className="add-card">
-        <FormAddCards onSubmit={this.handleData} />
-        <CardsList cards={data} />
-      </div>
-    );
-  }
+  return (
+    <div className="add-card">
+      <FormAddCards onSubmit={handleData} />
+      <CardsList cards={cards} />
+    </div>
+  );
 }
