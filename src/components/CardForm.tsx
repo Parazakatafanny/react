@@ -7,13 +7,7 @@ type CardType = {
 
 export default function Card(props: CardType) {
   const { card } = props;
-  const feature: string[] = [];
-  if (card.horns) feature.push('horns');
-  if (card.tail) feature.push('tail');
-  if (card.scales) feature.push('scales');
-  if (card.ears) feature.push('ears');
-  if (card.fangs) feature.push('fangs');
-  const strFeature = feature.join(', ');
+  const strFeature = card.features.join(', ');
 
   return (
     <div className="form-card">

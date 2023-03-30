@@ -12,7 +12,7 @@ export default function AddCard() {
 
   return (
     <div className="add-card">
-      <FormAddCards onSubmit={handleData} />
+      <FormAddCards onSubmitData={handleData} />
       <CardsList cards={cards} />
     </div>
   );

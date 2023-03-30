@@ -13,11 +13,7 @@ export interface CardFormData {
   name: string;
   birthday: string;
   pet: string;
-  scales: boolean;
-  horns: boolean;
-  tail: boolean;
-  ears: boolean;
-  fangs: boolean;
+  features: string[];
   gender: string;
   img: string;
 }
