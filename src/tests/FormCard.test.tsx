@@ -8,11 +8,7 @@ describe('Card', () => {
     name: 'Fluffy',
     birthday: '01/01/2022',
     pet: 'cat',
-    horns: false,
-    tail: true,
-    scales: false,
-    ears: true,
-    fangs: false,
+    features: ['horns'],
     gender: 'female',
     img: 'https://www.example.com/cat.jpg',
   };
@@ -30,13 +26,7 @@ describe('Card', () => {
     expect(pet?.innerHTML).toEqual(card.pet);
 
     const features = container.querySelector('.form-card__features');
-    const feature: string[] = [];
-    if (card.horns) feature.push('horns');
-    if (card.tail) feature.push('tail');
-    if (card.scales) feature.push('scales');
-    if (card.ears) feature.push('ears');
-    if (card.fangs) feature.push('fangs');
-    const strFeature = feature.join(', ');
+    const strFeature = card.features.join(', ');
     expect(features?.innerHTML).toEqual(strFeature);
 
     const gender = container.querySelector('.form-card__gender');
