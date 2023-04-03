@@ -1,62 +1,27 @@
 .card {
-  width: 13vw;
-  height: 22vw;
-  border: 1px solid rgb(134, 133, 133);
-  color: rgb(49, 48, 48);
+  width: 26vw;
+  height: 12vw;
+  display: flex;
+  border: 2px solid rgb(155, 7, 27);
+  border-radius: .5vw;
+  gap: 1vw;
+  color: rgb(80, 77, 77);
   font-size: 1vw;
 
   &__image {
-    width: 100%;
+    width: auto;
+    height: 100%;
+    border-radius: .4vw 0 0 .4vw;
     overflow: hidden;
-    border-bottom: 1px solid rgb(134, 133, 133);
-  }
-
-  &__title {
-    text-transform: uppercase;
-    font-weight: bold;
-    height: 1vw;
-    text-align: center;
-    overflow: hidden;
-    margin-bottom: 1vw;
-  }
-
-  &__description {
-    padding: 0 .2vw;
-    height: 3.9vw;
-    font-size: .8vw;
-    overflow: hidden;
-    color: rgb(94, 94, 94);
-    margin-bottom: 1vw;
   }
 
   &__info {
-    border-top: 1px solid rgb(134, 133, 133);
-    background-color: rgba(226, 223, 223, 0.342);
-    height: 1.9vw;
+    padding-top: .7vw;
     display: flex;
-    gap: 1vw;
-    padding: 0 1vw;
-    align-items: center;
-
-    &-likes,
-    &-rating {
-      display: flex;
-      align-items: center;
-      gap: .4vw;
-      color: rgb(66, 66, 66);
-    }
-    
+    flex-direction: column;
+    gap: .7vw;
+    align-items: flex-start;
   }
-}
-
-.like {
-  height: 1.1vw;
-  fill: rgb(51, 72, 131);
-}
-
-.stars {
-  height: 2vw;
-  fill: rgb(255, 174, 0);
 }
 
 .cards {
