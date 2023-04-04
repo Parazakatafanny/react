@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ModalFormCard from './ModalFormCard';
 
 interface CardProps {
   name: string;
@@ -8,21 +9,40 @@ interface CardProps {
   gender: string;
   img: string;
   planet: string;
+  locationPlanet: string;
 }
 
 export default function Card(props: CardProps) {
-  const { name, img, status, species, gender, type, planet } = props;
+  const [modal, setModal] = useState(false);
+
+  const handleData = (dataModal: boolean) => {
+    setModal(dataModal);
+  };
+
+  const { name, img, status, species, gender, type, planet, locationPlanet } = props;
   return (
-    <div className="card">
-      <img className="card__image" src={img} alt="character" />
-      <div className="card__info">
-        <div className="card__info-name">name: {name}</div>
-        <div className="card__info-status">status: {status}</div>
-        <div className="card__info-species">species: {species}</div>
-        {type && <div className="card__info-type">type: {type}</div>}
-        <div className="card__info-gender">gender: {gender}</div>
-        <div className="card__info-planet">planet: {planet}</div>
+    <>
+      <div className="card" role="button" tabIndex={0} onClick={() => setModal(true)}>
+        <img className="card__image" src={img} alt="character" />
+        <div className="card__info">
+          <div className="card__info-name">{name}</div>
+        </div>
       </div>
-    </div>
+      {modal && (
+        <ModalFormCard
+          card={{
+            name,
+            status,
+            species,
+            type,
+            gender,
+            img,
+            planet,
+            locationPlanet,
+          }}
+          onCloseModal={handleData}
+        />
+      )}
+    </>
   );
 }

@@ -15,7 +15,9 @@ export interface CardType {
   image: string;
   origin: {
     name: string;
-    url: string;
+  };
+  location: {
+    name: string;
   };
 }
 
@@ -51,6 +53,7 @@ export default function Main() {
                 status={card.status}
                 type={card.type}
                 planet={card.origin.name}
+                locationPlanet={card.location.name}
               />
             ))}
           </div>

@@ -9,15 +9,12 @@ export default function Header() {
     switch (location.pathname) {
       case '/about-us':
         return 'about us';
-        break;
 
       case '/add-card':
         return 'add card';
-        break;
 
       default:
         return 'main';
-        break;
     }
   }
 

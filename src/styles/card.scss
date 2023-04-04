@@ -1,12 +1,18 @@
 .card {
+  user-select: none;
   width: 26vw;
   height: 12vw;
   display: flex;
   border: 2px solid rgb(155, 7, 27);
   border-radius: .5vw;
-  gap: 1vw;
+  gap: .5vw;
   color: rgb(80, 77, 77);
   font-size: 1vw;
+  background-color: white;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   &__image {
     width: auto;
@@ -19,8 +25,14 @@
     padding-top: .7vw;
     display: flex;
     flex-direction: column;
-    gap: .7vw;
+    gap: .5vw;
     align-items: flex-start;
+
+    &-name {
+      color: rgb(155, 7, 27);
+      font-size: 2vw;
+      padding-top: 4vw;
+    }
   }
 }
 
