@@ -31,6 +31,7 @@ export default function FormAddCards(props: ComponentProps) {
     setTimeout(() => {
       setMessage(false);
       onSubmitData({
+        pet: data.pet,
         name: data.name,
         birthday: data.birthday,
         features: data.features,

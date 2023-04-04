@@ -23,7 +23,7 @@ describe('Card component', () => {
         rating={props.rating}
       />
     );
-
+    // TODO: использовать getByText виесто селекторов
     const title = container.querySelector('.card__title');
     expect(title?.innerHTML).toEqual(props.title);
     const description = container.querySelector('.card__description');
