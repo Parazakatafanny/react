@@ -11,7 +11,7 @@
   &__input {
     outline: none;
     width: 14vw;
-    padding-left: 1.5vw;
+    padding-left: 2vw;
     border: 1px solid rgb(37, 37, 37);
     background: url("../assets/search.svg") no-repeat center left;
     background-size: auto 60%;
@@ -25,5 +25,9 @@
     text-transform: uppercase;
     letter-spacing: .1vw;
     font-size: 1vw;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

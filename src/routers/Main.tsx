@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Card from '../components/Card';
+import React, { useEffect, useRef, useState } from 'react';
+import CardList from '../components/CardList';
 import Search from '../components/Search';
-// import cards from '../data/cards';
 
 const URL = 'https://rickandmortyapi.com/api';
 
@@ -23,42 +22,45 @@ export interface CardType {
 
 export default function Main() {
   const [cardsList, setcardsList] = useState<CardType[]>([]);
+  const searchValue = useRef(localStorage.getItem('search__input') || '');
 
-  useEffect(() => {
+  function getAllCards() {
     fetch(`${URL}/character`)
       .then((response) => {
         return response.json();
       })
       .then((cards) => {
         setcardsList(cards.results);
-      })
-      .catch((err) => {
-        console.log(err.message);
       });
+  }
+
+  const handleData = (name: string) => {
+    fetch(`${URL}/character/?name=${name}`)
+      .then((response) => {
+        return response.json();
+      })
+      .then((cards) => {
+        setcardsList(cards.results);
+      })
+      .catch(() => {
+        localStorage.setItem('search__input', '');
+        searchValue.current = '';
+        throw new Error('there is no such name');
+      });
+  };
+
+  useEffect(() => {
+    if (searchValue) {
+      handleData(searchValue.current);
+    } else {
+      getAllCards();
+    }
   }, []);
 
   return (
     <>
-      <Search />
-      <div className="cards">
-        <div className="container">
-          <div className="cards__inner">
-            {cardsList.map((card) => (
-              <Card
-                key={card.id}
-                name={card.name}
-                gender={card.gender}
-                species={card.species}
-                img={card.image}
-                status={card.status}
-                type={card.type}
-                planet={card.origin.name}
-                locationPlanet={card.location.name}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
+      <Search onSubmitData={handleData} />
+      <CardList cards={cardsList} />
     </>
   );
 }

@@ -1,8 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useForm } from 'react-hook-form';
 
-export default function Search() {
+type ComponentProps = {
+  onSubmitData: (data: string) => void;
+};
+
+export default function Search(props: ComponentProps) {
+  const { onSubmitData } = props;
+  const { handleSubmit } = useForm();
   const [inputValue, setInputValue] = useState<string>(localStorage.getItem('search__input') || '');
-
   const currentValue = useRef(inputValue);
 
   useEffect(() => {
@@ -17,15 +23,19 @@ export default function Search() {
     currentValue.current = value;
   };
 
+  function onSubmit() {
+    onSubmitData(inputValue);
+  }
+
   return (
     <div className="search">
       <div className="container">
-        <div className="search__inner">
+        <form className="search__inner" onSubmit={handleSubmit(onSubmit)}>
           <input value={inputValue} onChange={handleChange} className="search__input" type="text" />
-          <button className="search__button" type="button">
+          <button className="search__button" type="submit">
             search
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
