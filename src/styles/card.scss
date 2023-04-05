@@ -1,0 +1,71 @@
+.card {
+  width: 13vw;
+  height: 22vw;
+  border: 1px solid rgb(134, 133, 133);
+  color: rgb(49, 48, 48);
+  font-size: 1vw;
+
+  &__image {
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid rgb(134, 133, 133);
+  }
+
+  &__title {
+    text-transform: uppercase;
+    font-weight: bold;
+    height: 1vw;
+    text-align: center;
+    overflow: hidden;
+    margin-bottom: 1vw;
+  }
+
+  &__description {
+    padding: 0 .2vw;
+    height: 3.9vw;
+    font-size: .8vw;
+    overflow: hidden;
+    color: rgb(94, 94, 94);
+    margin-bottom: 1vw;
+  }
+
+  &__info {
+    border-top: 1px solid rgb(134, 133, 133);
+    background-color: rgba(226, 223, 223, 0.342);
+    height: 1.9vw;
+    display: flex;
+    gap: 1vw;
+    padding: 0 1vw;
+    align-items: center;
+
+    &-likes,
+    &-rating {
+      display: flex;
+      align-items: center;
+      gap: .4vw;
+      color: rgb(66, 66, 66);
+    }
+    
+  }
+}
+
+.like {
+  height: 1.1vw;
+  fill: rgb(51, 72, 131);
+}
+
+.stars {
+  height: 2vw;
+  fill: rgb(255, 174, 0);
+}
+
+.cards {
+  width: 100%;
+
+  &__inner {
+    display: flex;
+    gap: 2vw;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
