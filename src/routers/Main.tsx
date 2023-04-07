@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import Loaded from '../components/Loading';
 import CardList from '../components/CardList';
 import Search from '../components/Search';
 
@@ -22,6 +23,7 @@ export interface CardType {
 
 export default function Main() {
   const [cardsList, setcardsList] = useState<CardType[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
   const searchValue = useRef(localStorage.getItem('search__input') || '');
 
   function getAllCards() {
@@ -31,21 +33,22 @@ export default function Main() {
       })
       .then((cards) => {
         setcardsList(cards.results);
+        setIsLoaded(true);
       });
   }
 
   const handleData = (name: string) => {
+    setIsLoaded(false);
     fetch(`${URL}/character/?name=${name}`)
       .then((response) => {
         return response.json();
       })
       .then((cards) => {
         setcardsList(cards.results);
+        setIsLoaded(true);
       })
       .catch(() => {
-        localStorage.setItem('search__input', '');
-        searchValue.current = '';
-        throw new Error('there is no such name');
+        alert('owibka');
       });
   };
 
@@ -60,7 +63,7 @@ export default function Main() {
   return (
     <>
       <Search onSubmitData={handleData} />
-      <CardList cards={cardsList} />
+      {isLoaded ? <CardList cards={cardsList} /> : <Loaded />}
     </>
   );
 }
