@@ -24,6 +24,7 @@ export default function Search(props: ComponentProps) {
   };
 
   function onSubmit() {
+    localStorage.setItem('search__input', currentValue.current);
     onSubmitData(inputValue);
   }
 

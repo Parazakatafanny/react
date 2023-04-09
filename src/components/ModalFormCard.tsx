@@ -29,7 +29,7 @@ export default function ModalFormCard(props: ComponentProps) {
             {card.type && <div className="card__info-type">type: {card.type}</div>}
             <div className="card__info-gender">gender: {card.gender}</div>
             <div className="card__info-planet">planet: {card.planet}</div>
-            <div className="card__info-planet">location: {card.locationPlanet}</div>
+            <div className="card__info-location">location: {card.locationPlanet}</div>
           </div>
         </div>
         <div

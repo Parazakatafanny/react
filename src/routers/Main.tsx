@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import Loaded from '../components/Loading';
+import Loader from '../components/Loading';
 import CardList from '../components/CardList';
 import Search from '../components/Search';
 
@@ -24,6 +24,8 @@ export interface CardType {
 export default function Main() {
   const [cardsList, setcardsList] = useState<CardType[]>([]);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [notFound, setNotFound] = useState(false);
+  const [isServerError, setIsServerError] = useState(false);
   const searchValue = useRef(localStorage.getItem('search__input') || '');
 
   function getAllCards() {
@@ -39,16 +41,28 @@ export default function Main() {
 
   const handleData = (name: string) => {
     setIsLoaded(false);
+    setNotFound(false);
+    setIsServerError(false);
+
     fetch(`${URL}/character/?name=${name}`)
       .then((response) => {
+        if (response.status === 404) {
+          setNotFound(true);
+          return null;
+        }
         return response.json();
       })
       .then((cards) => {
+        if (!cards) {
+          return;
+        }
         setcardsList(cards.results);
-        setIsLoaded(true);
       })
       .catch(() => {
-        alert('owibka');
+        setIsServerError(true);
+      })
+      .finally(() => {
+        setIsLoaded(true);
       });
   };
 
@@ -60,10 +74,22 @@ export default function Main() {
     }
   }, []);
 
+  function getComponentToRender() {
+    if (notFound) {
+      return <div className="error-card">Not Found</div>;
+    }
+
+    if (isServerError) {
+      return <div className="error-card">Server Error</div>;
+    }
+
+    return <CardList cards={cardsList} />;
+  }
+
   return (
     <>
       <Search onSubmitData={handleData} />
-      {isLoaded ? <CardList cards={cardsList} /> : <Loaded />}
+      {isLoaded ? getComponentToRender() : <Loader />}
     </>
   );
 }
