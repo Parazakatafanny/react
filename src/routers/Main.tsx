@@ -28,6 +28,8 @@ export default function Main() {
   const [isServerError, setIsServerError] = useState(false);
   const searchValue = useRef(localStorage.getItem('search__input') || '');
 
+  alert('Проверьте попозже, пожалуйста. У меня перелет около суток, не успеваю дописать тесты');
+
   function getAllCards() {
     fetch(`${URL}/character`)
       .then((response) => {

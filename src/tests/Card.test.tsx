@@ -6,31 +6,31 @@ import Card from '../components/Card';
 describe('Card component', () => {
   it('renders Card component with given props', () => {
     const props = {
-      title: 'Adult Sterilized Dry Cat Food Sterile with Lamb',
-      img: 'https://4lapy.ru/resize/480x480/upload/iblock/cf6/cf604af5f62886f0698380fb639f8356.jpg',
-      description:
-        'Wellkiss Sterilized food for neutered and sterilized cats with lamb is a complete, balanced diet for adult cats. The composition of the diet includes all the components necessary for the health of the cat. The feed does not contain wheat, thus reducing the risk of allergic reactions.',
-      likes: '100',
-      rating: '4.5',
+      name: 'Morty Smith',
+      status: 'Alive',
+      species: 'Human',
+      type: '',
+      gender: 'Male',
+      origin: 'unknown',
+      location: 'Citadel of Ricks',
+      img: 'https://rickandmortyapi.com/api/character/avatar/2.jpeg',
     };
 
     const { container } = render(
       <Card
-        title={props.title}
+        name={props.name}
+        status={props.status}
+        species={props.species}
+        type={props.type}
+        gender={props.gender}
         img={props.img}
-        description={props.description}
-        likes={props.likes}
-        rating={props.rating}
+        planet={props.origin}
+        locationPlanet={props.location}
       />
     );
-    // TODO: использовать getByText виесто селекторов
-    const title = container.querySelector('.card__title');
-    expect(title?.innerHTML).toEqual(props.title);
-    const description = container.querySelector('.card__description');
-    expect(description?.innerHTML).toEqual(props.description);
-    const likes = container.querySelector('.card__info-likes');
-    expect(likes?.textContent).toEqual(props.likes);
-    const rating = container.querySelector('.card__info-rating');
-    expect(rating?.textContent).toEqual(props.rating);
+    const name = container.querySelector('.card__info-name');
+    expect(name?.innerHTML).toEqual(props.name);
+    const img = container.querySelector('.card__image');
+    expect(img?.getAttribute('src')).toEqual(props.img);
   });
 });
