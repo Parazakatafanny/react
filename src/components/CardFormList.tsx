@@ -1,6 +1,6 @@
 import React from 'react';
-import { CardFormData } from '../data/interface';
 import CardForm from './CardForm';
+import { CardFormData } from './FormAddCard';
 
 type Props = {
   cards: Array<CardFormData>;

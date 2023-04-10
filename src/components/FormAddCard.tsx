@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CardFormData } from '../data/interface';
+
+export interface CardFormData {
+  name: string;
+  birthday: string;
+  pet: string;
+  features: string[];
+  gender: string;
+  img: string;
+}
 
 type ComponentProps = {
   onSubmitData: (data: CardFormData) => void;

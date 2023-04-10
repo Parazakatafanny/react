@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardFormData } from '../data/interface';
+import { CardFormData } from './FormAddCard';
 
 type CardType = {
   card: CardFormData;

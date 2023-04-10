@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { CardFormData } from '../data/interface';
-import FormAddCards from '../components/FormAddCard';
+import FormAddCards, { CardFormData } from '../components/FormAddCard';
 import CardsList from '../components/CardFormList';
 
 export default function AddCard() {

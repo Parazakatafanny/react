@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ModalFormCard from './ModalFormCard';
 
-interface CardProps {
+export interface CardProps {
   name: string;
   status: string;
   species: string;

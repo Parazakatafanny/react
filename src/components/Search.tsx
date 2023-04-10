@@ -32,7 +32,12 @@ export default function Search(props: ComponentProps) {
     <div className="search">
       <div className="container">
         <form className="search__inner" onSubmit={handleSubmit(onSubmit)}>
-          <input value={inputValue} onChange={handleChange} className="search__input" type="text" />
+          <input
+            value={inputValue}
+            onChange={handleChange}
+            className="search__input"
+            type="search"
+          />
           <button className="search__button" type="submit">
             search
           </button>

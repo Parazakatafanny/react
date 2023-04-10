@@ -3,7 +3,7 @@ import Loader from '../components/Loading';
 import CardList from '../components/CardList';
 import Search from '../components/Search';
 
-const URL = 'https://rickandmortyapi.com/api';
+export const URL = 'https://rickandmortyapi.com/api';
 
 export interface CardType {
   id: number;
@@ -27,8 +27,6 @@ export default function Main() {
   const [notFound, setNotFound] = useState(false);
   const [isServerError, setIsServerError] = useState(false);
   const searchValue = useRef(localStorage.getItem('search__input') || '');
-
-  alert('Проверьте попозже, пожалуйста. У меня перелет около суток, не успеваю дописать тесты');
 
   function getAllCards() {
     fetch(`${URL}/character`)
