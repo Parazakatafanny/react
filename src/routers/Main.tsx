@@ -7,7 +7,7 @@ import { useGetCharacterByNameQuery } from '../app/API';
 
 export default function Main() {
   const searchValue = useAppSelector((state) => state.search.value);
-  const { data, error, isLoading } = useGetCharacterByNameQuery(searchValue);
+  const { data, error, isLoading, isFetching } = useGetCharacterByNameQuery(searchValue);
 
   function getComponentToRender() {
     if (error) {
@@ -20,7 +20,7 @@ export default function Main() {
   return (
     <>
       <Search />
-      {isLoading ? <Loader /> : getComponentToRender()}
+      {isLoading || isFetching ? <Loader /> : getComponentToRender()}
     </>
   );
 }

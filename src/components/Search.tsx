@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAppDispatch, useAppSelector } from '../app/store';
 import { setSearchValue, setCurrentValue } from '../app/search';
@@ -17,6 +17,11 @@ export default function Search() {
   function onSubmit() {
     dispatch(setSearchValue(search));
   }
+
+  useEffect(() => {
+    dispatch(setSearchValue(search));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="search">
