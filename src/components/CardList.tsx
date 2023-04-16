@@ -1,6 +1,6 @@
 import React from 'react';
-import { CardType } from 'routers/Main';
 import Card from './Card';
+import { CardType } from '../interfaces/mainCards';
 
 type Props = {
   cards: Array<CardType>;

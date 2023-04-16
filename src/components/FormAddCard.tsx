@@ -1,51 +1,44 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { addNewCard, addCurrentCard } from '../app/cardsForm';
+import { useAppDispatch, useAppSelector } from '../app/store';
+import { CardFormData, Inputs } from '../interfaces/cardForm';
 
-export interface CardFormData {
-  name: string;
-  birthday: string;
-  pet: string;
-  features: string[];
-  gender: string;
-  img: string;
-}
-
-type ComponentProps = {
-  onSubmitData: (data: CardFormData) => void;
-};
-
-type Inputs = {
-  name: string;
-  birthday: string;
-  pet: string;
-  features: string[];
-  gender: string;
-  img: FileList;
-};
-
-export default function FormAddCards(props: ComponentProps) {
+export default function FormAddCards() {
   const {
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm();
-  const { onSubmitData } = props;
 
+  const cardData = useAppSelector((state) => state.cardsForm.currentCard);
+  const dispatch = useAppDispatch();
   const [message, setMessage] = useState(false);
+
+  useEffect(() => {
+    watch((value) => {
+      const card = value;
+      card.img = '';
+      dispatch(addCurrentCard(card));
+    });
+  }, [dispatch, watch]);
 
   function onSubmit(data: Inputs) {
     setMessage(true);
     setTimeout(() => {
       setMessage(false);
-      onSubmitData({
-        pet: data.pet,
-        name: data.name,
-        birthday: data.birthday,
-        features: data.features,
-        gender: data.gender,
-        img: URL.createObjectURL(data.img[0]),
-      } as CardFormData);
+      dispatch(
+        addNewCard({
+          pet: data.pet,
+          name: data.name,
+          birthday: data.birthday,
+          features: data.features,
+          gender: data.gender,
+          img: URL.createObjectURL(data.img[0]),
+        } as CardFormData)
+      );
       reset();
     }, 500);
   }
@@ -56,18 +49,26 @@ export default function FormAddCards(props: ComponentProps) {
       <form className="form" onSubmit={handleSubmit((data) => onSubmit(data as Inputs))}>
         <label className="form__label" htmlFor="name">
           name
-          <input id="name" type="text" {...register('name', { required: true })} />
+          <input
+            id="name"
+            type="text"
+            {...register('name', { required: true, value: cardData.name })}
+          />
         </label>
         {errors.name && <div className="error-message">the field should not be empty</div>}
         <label className="form__label" htmlFor="birthday">
           birthday
-          <input id="birthday" type="date" {...register('birthday', { required: true })} />
+          <input
+            id="birthday"
+            type="date"
+            {...register('birthday', { required: true, value: cardData.birthday })}
+          />
         </label>
         {errors.birthday && <div className="error-message">the field should not be empty</div>}
 
         <label className="form__label" htmlFor="pet">
           choose a pet:
-          <select id="pet" {...register('pet', { required: true })}>
+          <select id="pet" {...register('pet', { required: true, value: cardData.pet })}>
             <option value="dog">Dog</option>
             <option value="cat">Cat</option>
             <option value="hamster">Hamster</option>
@@ -81,23 +82,43 @@ export default function FormAddCards(props: ComponentProps) {
           Choose your pet features:
           <label htmlFor="scales">
             scales
-            <input type="checkbox" value="scales" {...register('features', { required: true })} />
+            <input
+              type="checkbox"
+              value="scales"
+              {...register('features', { required: true, value: cardData.features })}
+            />
           </label>
           <label htmlFor="horns">
             horns
-            <input type="checkbox" value="horns" {...register('features', { required: true })} />
+            <input
+              type="checkbox"
+              value="horns"
+              {...register('features', { required: true, value: cardData.features })}
+            />
           </label>
           <label htmlFor="tail">
             tail
-            <input type="checkbox" value="tail" {...register('features', { required: true })} />
+            <input
+              type="checkbox"
+              value="tail"
+              {...register('features', { required: true, value: cardData.features })}
+            />
           </label>
           <label htmlFor="ears">
             ears
-            <input type="checkbox" value="ears" {...register('features', { required: true })} />
+            <input
+              type="checkbox"
+              value="ears"
+              {...register('features', { required: true, value: cardData.features })}
+            />
           </label>
           <label htmlFor="fangs">
             fangs
-            <input type="checkbox" value="fangs" {...register('features', { required: true })} />
+            <input
+              type="checkbox"
+              value="fangs"
+              {...register('features', { required: true, value: cardData.features })}
+            />
           </label>
         </fieldset>
         {errors.features && <div className="error-message">the field should not be empty</div>}
@@ -110,7 +131,7 @@ export default function FormAddCards(props: ComponentProps) {
               type="radio"
               id="male"
               value="male"
-              {...register('gender', { required: true })}
+              {...register('gender', { required: true, value: cardData.gender })}
             />
           </label>
           <label htmlFor="female">
@@ -119,7 +140,7 @@ export default function FormAddCards(props: ComponentProps) {
               type="radio"
               id="female"
               value="female"
-              {...register('gender', { required: true })}
+              {...register('gender', { required: true, value: cardData.gender })}
             />
           </label>
         </fieldset>

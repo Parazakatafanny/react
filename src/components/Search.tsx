@@ -1,43 +1,28 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useAppDispatch, useAppSelector } from '../app/store';
+import { setSearchValue, setCurrentValue } from '../app/search';
 
-type ComponentProps = {
-  onSubmitData: (data: string) => void;
-};
+export default function Search() {
+  const search = useAppSelector((state) => state.search.currentValue);
+  const dispatch = useAppDispatch();
 
-export default function Search(props: ComponentProps) {
-  const { onSubmitData } = props;
   const { handleSubmit } = useForm();
-  const [inputValue, setInputValue] = useState<string>(localStorage.getItem('search__input') || '');
-  const currentValue = useRef(inputValue);
-
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('search__input', currentValue.current);
-    };
-  }, []);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { value } = event.target;
-    setInputValue(value);
-    currentValue.current = value;
+    dispatch(setCurrentValue(value));
   };
 
   function onSubmit() {
-    localStorage.setItem('search__input', currentValue.current);
-    onSubmitData(inputValue);
+    dispatch(setSearchValue(search));
   }
 
   return (
     <div className="search">
       <div className="container">
         <form className="search__inner" onSubmit={handleSubmit(onSubmit)}>
-          <input
-            value={inputValue}
-            onChange={handleChange}
-            className="search__input"
-            type="search"
-          />
+          <input value={search} onChange={handleChange} className="search__input" type="search" />
           <button className="search__button" type="submit">
             search
           </button>
