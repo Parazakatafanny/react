@@ -3,7 +3,10 @@ import React from 'react';
 import { render, waitForElementToBeRemoved } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, describe, expect, vi } from 'vitest';
-import Main, { CardType, URL } from '../routers/Main';
+import { Provider } from 'react-redux';
+import Main, { URL } from '../routers/Main';
+import { CardType } from '../interfaces/mainCards';
+import { store } from '../app/store';
 
 global.fetch = vi.fn();
 
@@ -41,7 +44,11 @@ describe('makes a GET request to fetch todo list and returns the result', () => 
       })
     );
 
-    const { container } = render(<Main />);
+    const { container } = render(
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    );
     await waitForElementToBeRemoved(() => container.querySelector('.loader'));
 
     const names = Array.from(container.querySelectorAll('.card__info-name'));
@@ -59,7 +66,11 @@ describe('makes a GET request to fetch todo list and returns the result', () => 
     );
 
     const user = userEvent.setup();
-    const { container } = render(<Main />);
+    const { container } = render(
+      <Provider store={store}>
+        <Main />
+      </Provider>
+    );
     await waitForElementToBeRemoved(() => container.querySelector('.loader'));
 
     const input: HTMLInputElement = container.querySelector('.search__input')!;
