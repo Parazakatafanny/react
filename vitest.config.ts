@@ -10,5 +10,6 @@ export default defineConfig({
       skipFull: false,
       reporter: 'text',
     },
+    setupFiles: './src/setupTests.ts',
   },
 });
