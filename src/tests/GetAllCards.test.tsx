@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import { render, screen, waitForElementToBeRemoved, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { it, describe, expect, vi } from 'vitest';
+import { render, waitForElementToBeRemoved } from '@testing-library/react';
+import { it, describe, expect } from 'vitest';
 import { Provider } from 'react-redux';
-import Main, { URL } from '../routers/Main';
+import Main from '../routers/Main';
 import { store } from '../app/store';
 
 describe('makes a GET request to fetch todo list and returns the result', () => {

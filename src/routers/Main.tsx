@@ -5,8 +5,6 @@ import Search from '../components/Search';
 import { useAppSelector } from '../app/store';
 import { useGetCharacterByNameQuery } from '../app/API';
 
-export const URL = 'https://rickandmortyapi.com/api';
-
 export default function Main() {
   const searchValue = useAppSelector((state) => state.search.value);
   const { data, error, isLoading } = useGetCharacterByNameQuery(searchValue);
