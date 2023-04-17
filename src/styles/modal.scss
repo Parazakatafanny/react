@@ -1,0 +1,29 @@
+.card-modal {
+  user-select: none;
+  position: fixed;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.432);
+  width: 100%;
+  height: 100%;
+  transform: scale3d(2, 2, 2);
+  &__inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  &__close {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    position: fixed;
+    top: -2vw;
+    right: -1vw;
+    font-weight: 600;
+    color: white;
+    font-size: 2vw;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
