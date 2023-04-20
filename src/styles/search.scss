@@ -1,0 +1,29 @@
+.search {
+  width: 100%;
+
+  &__inner {
+    display: flex;
+    justify-content: center;
+    height: 2vw;
+    margin: 5vw 0;
+  }
+
+  &__input {
+    outline: none;
+    width: 14vw;
+    padding-left: 1.5vw;
+    border: 1px solid rgb(37, 37, 37);
+    background: url("../assets/search.svg") no-repeat center left;
+    background-size: auto 60%;
+    background-position: 5px;
+  }
+
+  &__button {
+    border: 1px solid rgb(37, 37, 37);
+    border-left: none;
+    background-color: white;
+    text-transform: uppercase;
+    letter-spacing: .1vw;
+    font-size: 1vw;
+  }
+}
