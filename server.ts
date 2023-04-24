@@ -11,23 +11,7 @@ import { createServer as createViteServer } from 'vite';
 
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD;
 
-const resolve = (p: string) => path.resolve(__dirname, p);
-
-const getStyleSheets = async () => {
-  try {
-    const assetpath = resolve('dist/assets');
-    const files = await fs.readdir(assetpath);
-    const cssAssets = files.filter((l) => l.endsWith('.css'));
-    const allContent = [];
-    for (const asset of cssAssets) {
-      const content = await fs.readFile(path.join(assetpath, asset), 'utf-8');
-      allContent.push(`<style type="text/css">${content}</style>`);
-    }
-    return allContent.join('\n');
-  } catch {
-    return '';
-  }
-};
+const resolve = (p: string) => path.resolve(p);
 
 async function createServer(isProd = process.env.NODE_ENV === 'production') {
   const app = express();
@@ -55,14 +39,13 @@ async function createServer(isProd = process.env.NODE_ENV === 'production') {
       })
     );
   }
-  const stylesheets = getStyleSheets();
   app.use('*', async (req: Request, res: Response, next: NextFunction) => {
     const url = req.originalUrl;
 
     try {
       // 1. Read index.html
       let template = await fs.readFile(
-        isProd ? resolve('dist/client/index.html') : resolve('index.html'),
+        isProd ? resolve('dist/index.html') : resolve('index.html'),
         'utf-8'
       );
 
@@ -74,18 +57,17 @@ async function createServer(isProd = process.env.NODE_ENV === 'production') {
       // 3. Load the server entry. vite.ssrLoadModule automatically transforms
       //    your ESM source code to be usable in Node.js! There is no bundling
       //    required, and provides efficient invalidation similar to HMR.
-      const productionBuildPath = path.join(__dirname, './dist/server/entry-server.mjs');
-      const devBuildPath = path.join(__dirname, './src/client/entry-server.tsx');
+      const productionBuildPath = path.resolve('./dist/entry-server.mjs');
+      const devBuildPath = path.resolve('./src/entry-server.tsx');
       const { render } = await vite.ssrLoadModule(isProd ? productionBuildPath : devBuildPath);
 
       // 4. render the app HTML. This assumes entry-server.js's exported `render`
       //    function calls appropriate framework SSR APIs,
       //    e.g. ReactDOMServer.renderToString()
       const appHtml = await render(req, url);
-      const cssAssets = isProd ? '' : await stylesheets;
 
       // 5. Inject the app-rendered HTML into the template.
-      const html = template.replace(`<!--app-html-->`, appHtml).replace(`<!--head-->`, cssAssets);
+      const html = template.replace(`<!--app-html-->`, appHtml);
 
       // 6. Send the rendered HTML back.
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
@@ -93,7 +75,6 @@ async function createServer(isProd = process.env.NODE_ENV === 'production') {
     } catch (e: any) {
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       !isProd && vite.ssrFixStacktrace(e);
-      console.log(e.stack);
       // If an error is caught, let Vite fix the stack trace so it maps back to
       // your actual source code.
       vite.ssrFixStacktrace(e);

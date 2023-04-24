@@ -10,7 +10,9 @@ import {
   createStaticHandler,
   createStaticRouter,
 } from 'react-router-dom/server';
+import { Provider } from 'react-redux';
 
+import { store } from './app/store';
 import routes from './routes';
 import './styles/style.scss';
 
@@ -50,12 +52,17 @@ function createFetchRequest(req: Request) {
   return new Request(url.href, init);
 }
 
-export default async function render(req: Request, url: string) {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, import/prefer-default-export
+export async function render(req: Request, url: string) {
   const handler = createStaticHandler(routes);
   const fetchRequest = createFetchRequest(req);
   const context = (await handler.query(fetchRequest)) as StaticHandlerContext;
 
   const router = createStaticRouter(handler.dataRoutes, context);
 
-  return ReactDOMServer.renderToString(<StaticRouterProvider router={router} context={context} />);
+  return ReactDOMServer.renderToString(
+    <Provider store={store}>
+      <StaticRouterProvider router={router} context={context} />
+    </Provider>
+  );
 }

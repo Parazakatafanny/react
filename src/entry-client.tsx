@@ -9,7 +9,7 @@ import { store } from './app/store';
 import './styles/style.scss';
 
 const router = createBrowserRouter(routes);
-const container = document.getElementById('app');
+const container = document.getElementById('root');
 
 function FullApp() {
   return (
