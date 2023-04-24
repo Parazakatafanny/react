@@ -20,6 +20,7 @@
     "styled.d.ts",
     "src/tests",
     "vite.config.ts",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "server.ts"
   ]
 }
